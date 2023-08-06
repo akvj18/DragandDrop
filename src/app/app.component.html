@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            Where to move: 
+            <mat-radio-group aria-label="Select an option" (change)="onChange($event)">
+                <mat-radio-button [value]="1" [checked]="true" class="mr-2" >Include</mat-radio-button>
+                <mat-radio-button [value]="2">Exclude</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="drag-container drag-container--origin ">
+          <div class="section-heading">Options</div>
+  
+          <div cdkDropList id="optionsList" [cdkDropListData]="todo"
+            [cdkDropListConnectedTo]="['includeList','excludeList']" class="item-list" (cdkDropListDropped)="drop($event)">
+            <div class="item-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="drag-container drag-container--destination" [ngClass]="optionSelected!==1? 'drag-container--disabled': null">
+          <div class="section-heading">To Include</div>
+  
+          <div cdkDropList id="includeList" [cdkDropListData]="done"  [cdkDropListEnterPredicate]="allowDrop" 
+            [cdkDropListConnectedTo]="['optionsList']" class="item-list" (cdkDropListDropped)="drop($event)">
+            <div class="item-box item-box--include" [ngClass]="optionSelected===2? 'item-box--disabled': null" *ngFor="let item of done" cdkDrag>{{item}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="drag-container drag-container--destination" [ngClass]="optionSelected!==2? 'drag-container--disabled': null">
+          <div class="section-heading">To Exclude</div>
+  
+          <div cdkDropList id="excludeList" [cdkDropListData]="review" [cdkDropListEnterPredicate]="allowDrop"
+            [cdkDropListConnectedTo]="['optionsList']" class="item-list" (cdkDropListDropped)="drop($event)">
+            <div class="item-box item-box--exclude" [ngClass]="optionSelected===1? 'item-box--disabled': null" *ngFor="let item of review" cdkDrag>{{item}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
